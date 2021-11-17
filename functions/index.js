@@ -5,9 +5,9 @@ const express = require("express");
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 
-// const cors = require('cors');
+const cors = require('cors');
 const app = express();
-// app.use(cors({ origin: true }));
+app.use(cors({ origin: true }));
 
 
 app.get('*/hello/', (req, res) => {
