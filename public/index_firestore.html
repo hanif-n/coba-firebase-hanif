@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Belajar Firebase</title>
+</head>
+
+<body>
+  <h1>Belajar Firebase Firestore</h1>
+  <p>Latihan Firebase Firestore oleh Hanif</p>
+  <div id="json"></div>
+</body>
+<script type="module">
+  var jsonDiv = document.getElementById("json");
+
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-analytics.js";
+
+  // >> Untuk Firestore
+
+  import { getFirestore, doc, collection, getDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
+
+  const firebaseApp = initializeApp({
+    apiKey: "AIzaSyDe3tPw0eym9F2zHvLMRWyeDNvb3jxHY8M",
+    authDomain: "coba-firebase-hanif.firebaseapp.com",
+    projectId: "coba-firebase-hanif"
+  });
+
+  const db = getFirestore();
+
+  const docRef = doc(db, "users", "1");
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    jsonDiv.append(docSnap.data());
+    console.log("Document data:",docSnap.data());
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
+
+
+  //Ambil semua dokumen
+  const querySnapshot = await getDocs(collection(db, "users"));
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+    jsonDiv.append(doc.data().password);
+  });
+
+ const unsub = onSnapshot(doc(db, "users", "1"), (doc) => {
+    console.log("Current data: ", doc.data());
+    jsonDiv.append(doc.data().user_id);
+});
+  
+</script>
+
+</html>
